@@ -1,0 +1,110 @@
+@import "./_trigonometry";
+
+$spinner-radius: 3 !default;
+$spinner-number: 12 !default;
+$spinner-color-active: blue !default;
+$spinner-color-inactive: black !default;
+
+$spinner-color-active-1: transparentize($spinner-color-active, 0.2);
+$spinner-color-active-2: transparentize($spinner-color-active-1, 0.2);
+$spinner-color-active-3: transparentize($spinner-color-active-2, 0.2);
+$spinner-color-active-4: transparentize($spinner-color-active-3, 0.2);
+$spinner-color-active-5: transparentize($spinner-color-active-4, 0.2);
+
+$spinner-color-inactive-1: transparentize($spinner-color-inactive, 0.2);
+$spinner-color-inactive-2: transparentize($spinner-color-inactive-1, 0.2);
+$spinner-color-inactive-3: transparentize($spinner-color-inactive-2, 0.2);
+$spinner-color-inactive-4: transparentize($spinner-color-inactive-3, 0.2);
+$spinner-color-inactive-5: transparentize($spinner-color-inactive-4, 0.2);
+
+@function getX($angle) {
+  @return $spinner-radius * cos($angle) + 0em;
+}
+
+@function getY($angle) {
+  @return $spinner-radius * sin($angle) + 0em;
+}
+
+@function getAngle($index) {
+  @return $index * (360 / $spinner-number) + 0deg;
+}
+
+@function normalize($number) {
+  @return $number % $spinner-number;
+}
+
+@function getColorAtStep($step, $index) {
+  @if normalize($step) == $index {
+    @return $spinner-color-active-5;
+  }
+  @if normalize($step + 1) == $index {
+    @return $spinner-color-active-4;
+  }
+  @if normalize($step + 2) == $index {
+    @return $spinner-color-active-3;
+  }
+  @if normalize($step + 3) == $index {
+    @return $spinner-color-active-2;
+  }
+  @if normalize($step + 4) == $index {
+    @return $spinner-color-active-1;
+  }
+  @if normalize($step + 5) == $index {
+    @return $spinner-color-active;
+  }
+  @if normalize($step + 6) == $index {
+    @return $spinner-color-inactive-5;
+  }
+  @if normalize($step + 7) == $index {
+    @return $spinner-color-inactive-4;
+  }
+  @if normalize($step + 8) == $index {
+    @return $spinner-color-inactive-3;
+  }
+  @if normalize($step + 9) == $index {
+    @return $spinner-color-inactive-2;
+  }
+  @if normalize($step + 10) == $index {
+    @return $spinner-color-inactive-1;
+  }
+  @if normalize($step + 11) == $index {
+    @return $spinner-color-inactive;
+  }
+  @return $spinner-color-inactive;
+}
+
+@function interpolate($x, $y, $color) {
+  @return unquote($x + " " + $y + " 0em 0em " + $color);
+}
+
+@function getSpinnerAtStep($step) {
+  $spinner: "";
+  @for $i from 0 through $spinner-number {
+    $angle: getAngle($i);
+    $x: getX($angle);
+    $y: getY($angle);
+    $color: getColorAtStep($step, $i);
+
+    $spinner: $spinner + interpolate($x, $y, $color);
+    @if $i != $spinner-number {
+      $spinner: $spinner + ", ";
+    }
+  }
+  @return unquote($spinner);
+}
+
+@keyframes spinner {
+  
+  0%, 100% {box-shadow: getSpinnerAtStep(1)}
+  8.3% {box-shadow: getSpinnerAtStep(2)}
+  16.6% {box-shadow: getSpinnerAtStep(3)}
+  24.9% {box-shadow: getSpinnerAtStep(4)}
+  33.2% {box-shadow: getSpinnerAtStep(5)}
+  41.5% {box-shadow: getSpinnerAtStep(6)}
+  49.8% {box-shadow: getSpinnerAtStep(7)}
+  58.1% {box-shadow: getSpinnerAtStep(8)}
+  66.4% {box-shadow: getSpinnerAtStep(9)}
+  74.7% {box-shadow: getSpinnerAtStep(10)}
+  83% {box-shadow: getSpinnerAtStep(11)}
+  92% {box-shadow: getSpinnerAtStep(12)}
+}

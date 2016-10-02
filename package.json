@@ -1,0 +1,15 @@
+{
+  "name": "pure-scss-spinners",
+  "version": "1.0.0",
+  "description": "Pure scss spinners",
+  "main": "index.js",
+  "scripts": {
+    "compile": "node-sass src/spinner.scss dist/spinner.css",
+    "watch": "node-sass -w src/spinner.scss dist/spinner.css"
+  },
+  "author": "Alexandru Gaman <alex.gaman17@yahoo.ro>",
+  "license": "WTFPL",
+  "devDependencies": {
+    "node-sass": "^3.10.1"
+  }
+}

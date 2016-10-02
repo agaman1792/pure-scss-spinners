@@ -1,0 +1,18 @@
+$radius: 3;
+$number: 12;
+$spinner-color-active: green;
+$spinner-color-inactive: black;
+
+@import "./_spinner";
+
+.spinner {
+  margin: 100px auto;
+  font-size: 24px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  
+  animation: spinner 1.5s infinite ease;
+}
